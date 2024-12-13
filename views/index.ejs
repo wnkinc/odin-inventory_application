@@ -1,0 +1,22 @@
+<!-- index.ejs -->
+<html>
+  <head>
+    <title><%= title %></title>
+  </head>
+  <body>
+    <%- include('./partials/navbar', {links: links}) %>
+    <h1><%= title %></h1>
+    <ul>
+      <% gifts.forEach((gift) => { %>
+      <li>
+        <a href="/<%= gift.id %>/details">View</a>
+        <strong><%= gift.name %>:</strong> <%= gift.description %> <%=
+        gift.price %><%= gift.age_group %>
+        <br />
+        <small>Added on: <%= gift.created_at.toLocaleString() %></small>
+      </li>
+      <br />
+      <% }); %>
+    </ul>
+  </body>
+</html>
