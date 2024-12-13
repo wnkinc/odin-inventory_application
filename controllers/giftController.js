@@ -16,6 +16,32 @@ async function giftsGET(req, res) {
   });
 }
 
+async function donateGET(req, res) {
+  const categories = await db.getCategories();
+  res.render("donate", {
+    title: "Donate",
+    links: links,
+    categories: categories,
+  });
+}
+
+async function aboutGET(req, res) {
+  res.render("about", {
+    title: "About Our Inventory Application",
+    links: links,
+  });
+}
+
+async function contactGET(req, res) {
+  res.render("contact", {
+    title: "Contact",
+    links: links,
+  });
+}
+
 module.exports = {
   giftsGET,
+  donateGET,
+  aboutGET,
+  contactGET,
 };

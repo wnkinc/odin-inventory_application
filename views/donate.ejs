@@ -1,0 +1,45 @@
+<!-- views/createUser.ejs -->
+<!DOCTYPE html>
+<html>
+  <head>
+    <title><%= title %></title>
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body>
+    <%- include('./partials/navbar', {links: links}) %>
+
+    <h1><%= title %></h1>
+    <form action="/donate" method="POST">
+      <label for="name">Gift Name: </label>
+      <input type="text" name="name" id="name" />
+      <label for="description">description: </label>
+      <textarea
+        id="description"
+        name="description"
+        rows="5"
+        cols="30"
+        placeholder="Write a short description about the gift..."
+      ></textarea>
+      <label for="price">Price: </label>
+      <input type="number" name="price" id="price" step="0.01" />
+
+      <label for="age_group">Age Group: </label>
+      <select id="age_group" name="age_group">
+        <option value="option1">Infants (0-2 years)</option>
+        <option value="option2">Toddlers (3-5 years)</option>
+        <option value="option3">Kids (6-11 years)</option>
+        <option value="option3">Teens (12+ years)</option>
+      </select>
+
+      <label for="category">Category: </label>
+      <select id="category" name="category">
+        <% categories.forEach(category => { %>
+        <option value="<%= category.id %>"><%= category.name %></option>
+        <% }) %>
+      </select>
+
+      <button type="submit">Submit</button>
+    </form>
+    <a href="/">Back to home</a>
+  </body>
+</html>

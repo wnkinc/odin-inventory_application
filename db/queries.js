@@ -5,6 +5,14 @@ async function getAllGifts() {
   return result.rows;
 }
 
+async function getCategories() {
+  const result = await pool.query(
+    "SELECT id, name FROM Categories ORDER BY name;"
+  );
+  return result.rows;
+}
+
 module.exports = {
   getAllGifts,
+  getCategories,
 };
