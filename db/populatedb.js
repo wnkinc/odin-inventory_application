@@ -11,21 +11,70 @@ const client = new Client({
 });
 
 const SQL = `
-DROP TABLE IF EXISTS messages;
+DROP TABLE IF EXISTS Category_Items;
+DROP TABLE IF EXISTS Gifts;
+DROP TABLE IF EXISTS Users;
+DROP TABLE IF EXISTS Categories;
 
-CREATE TABLE messages (
-   id INTEGER PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
-   name VARCHAR(255) NOT NULL,  
-   message TEXT,                
-   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP 
+CREATE TABLE Users (
+    id INTEGER PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
+    username VARCHAR(255) UNIQUE NOT NULL,
+    email VARCHAR(255) UNIQUE NOT NULL,
+    password VARCHAR(255) NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
+CREATE TABLE Categories (
+    id INTEGER PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
+    name VARCHAR(255) UNIQUE NOT NULL,
+    description TEXT,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
 
-INSERT INTO messages (message, name, created_at)
-VALUES
-  ('Hi there!', 'Amando', NOW()),
-  ('Hello World!', 'Charles', NOW());
+CREATE TABLE Gifts (
+    id INTEGER PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
+    name VARCHAR(255) NOT NULL,
+    description TEXT,
+    price DECIMAL(10, 2) NOT NULL,
+    category_id INTEGER NOT NULL,
+    age_group VARCHAR(100),
+    user_id INTEGER NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (category_id) REFERENCES Categories(id),
+    FOREIGN KEY (user_id) REFERENCES Users(id)
+);
 
+CREATE TABLE Category_Items (
+    id INTEGER PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
+    category_id INT REFERENCES Categories(id) ON DELETE CASCADE,
+    item_id INT REFERENCES Gifts(id) ON DELETE CASCADE
+);
+
+-- Insert some sample users
+INSERT INTO Users (username, email, password) VALUES
+('john_doe', 'john@example.com', 'password123'),
+('jane_smith', 'jane@example.com', 'securepass456');
+
+-- Insert some sample categories
+INSERT INTO Categories (name, description) VALUES
+('Toys', 'Gift items for children, from plush toys to action figures'),
+('Books', 'Books for children of various age groups'),
+('Games', 'Board games, puzzles, and other interactive gifts'),
+('Electronics', 'Electronic gifts including gadgets, devices, and toys');
+
+-- Insert some sample gifts
+INSERT INTO Gifts (name, description, price, category_id, age_group, user_id) VALUES
+('Lego Set', 'A fun Lego building set for children', 49.99, 1, '5-10 years', 1),
+('Children''s Book', 'A magical adventure book for young readers', 12.99, 2, '4-8 years', 2),
+('Jenga Game', 'A classic game for all ages', 19.99, 3, '6+ years', 1),
+('Tablet for Kids', 'A kid-friendly tablet with educational apps', 129.99, 4, '5-10 years', 2);
+
+-- Link gifts to categories using Category_Items
+INSERT INTO Category_Items (category_id, item_id) VALUES
+(1, 1), -- Lego Set in Toys
+(2, 2), -- Children\'s Book in Books
+(3, 3), -- Jenga Game in Games
+(4, 4); -- Tablet for Kids in Electronics
 `;
 
 async function main() {
@@ -36,10 +85,6 @@ async function main() {
 
     console.log("Seeding data...");
     await client.query(SQL); // Run the SQL query to create table and insert data
-
-    console.log("Fetching data from messages table...");
-    const result = await client.query("SELECT * FROM messages;"); // Fetch all rows from the messages table
-    console.log("Inserted messages:", result.rows); // Log the fetched rows to ensure the data is there
 
     console.log("Seeding complete.");
   } catch (err) {
