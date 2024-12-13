@@ -2,7 +2,9 @@ const db = require("../db/queries");
 
 const links = [
   { href: "/", text: "Home" },
-  { href: "/new", text: "New" },
+  { href: "/donate", text: "Donate" },
+  { href: "/about", text: "About" },
+  { href: "/contact", text: "Contact" },
 ];
 
 async function giftsGET(req, res) {

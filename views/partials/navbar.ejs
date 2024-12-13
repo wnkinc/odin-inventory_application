@@ -1,12 +1,19 @@
 <!-- navbar.ejs -->
-<nav>
-  <ul>
-    <% for (let i = 0; i < links.length; i++) { %>
-    <li>
-      <a href="<%= links[i].href %>">
-        <span> <%= links[i].text %> </span>
-      </a>
+<nav class="navbar">
+  <ul class="navbar-list">
+    <li class="navbar-item navLeft">
+      <a href="/" class="navbar-link">Home</a>
     </li>
-    <% } %>
+    <div class="navRight">
+      <li class="navbar-item">
+        <a href="/donate" class="navbar-link">Donate</a>
+      </li>
+      <li class="navbar-item">
+        <a href="/about" class="navbar-link">About</a>
+      </li>
+      <li class="navbar-item">
+        <a href="/contact" class="navbar-link">Contact</a>
+      </li>
+    </div>
   </ul>
 </nav>
