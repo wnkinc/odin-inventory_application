@@ -53,10 +53,12 @@ async function giftsGET(req, res) {
 
 async function donateGET(req, res) {
   const categories = await db.getCategories();
+  const usernames = await db.getUsers();
   res.render("donate", {
     title: "Donate",
     links: links,
     categories: categories,
+    usernames: usernames,
   });
 }
 

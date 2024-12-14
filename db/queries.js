@@ -12,6 +12,13 @@ async function getCategories() {
   return result.rows;
 }
 
+async function getUsers() {
+  const result = await pool.query(
+    "SELECT id, username FROM Users ORDER BY username;"
+  );
+  return result.rows;
+}
+
 async function insertUser(username, email, password) {
   const checkQuery = `
   SELECT 1 FROM Users WHERE username = $1;`;
@@ -36,4 +43,5 @@ module.exports = {
   getAllGifts,
   getCategories,
   insertUser,
+  getUsers,
 };

@@ -10,6 +10,13 @@
 
     <h1><%= title %></h1>
     <form action="/donate" method="POST">
+      <label for="usernames">Usernames: </label>
+      <select id="usernames" name="usernames">
+        <% usernames.forEach(username => { %>
+        <option value="<%= username.id %>"><%= username.username %></option>
+        <% }) %>
+      </select>
+
       <label for="name">Gift Name: </label>
       <input type="text" name="name" id="name" />
       <label for="description">description: </label>
