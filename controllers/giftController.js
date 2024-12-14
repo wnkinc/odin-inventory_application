@@ -36,7 +36,33 @@ async function contactGET(req, res) {
   res.render("contact", {
     title: "Contact",
     links: links,
+    data: { username: "", email: "", password: "" }, // Empty fields for initial load
   });
+}
+
+async function contactPOST(req, res) {
+  const { username, email, password } = req.body;
+
+  try {
+    // Try inserting the user
+    await db.insertUser(username, email, password);
+    res.redirect("/donate");
+  } catch (error) {
+    // Handle the error, e.g., send a response indicating the username is taken
+    if (error.message === "Username already taken") {
+      return res.render("contact", {
+        title: "Contact",
+        links: links,
+        errors: [
+          { msg: "Username is already taken, please choose another one." },
+        ],
+        data: { username, email, password },
+      });
+    }
+
+    // Handle other errors
+    return res.status(500).json({ error: "An unexpected error occurred." });
+  }
 }
 
 module.exports = {
@@ -44,4 +70,5 @@ module.exports = {
   donateGET,
   aboutGET,
   contactGET,
+  contactPOST,
 };
