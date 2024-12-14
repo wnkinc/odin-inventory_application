@@ -9,6 +9,10 @@ giftRouter.get("/donate", giftController.donateGET);
 giftRouter.get("/about", giftController.aboutGET);
 
 giftRouter.get("/contact", giftController.contactGET);
-giftRouter.post("/contact", giftController.contactPOST);
+giftRouter.post(
+  "/contact",
+  giftController.validateUser,
+  giftController.contactPOST
+);
 
 module.exports = giftRouter;

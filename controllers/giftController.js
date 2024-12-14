@@ -7,6 +7,41 @@ const links = [
   { href: "/contact", text: "Contact" },
 ];
 
+const { body, validationResult } = require("express-validator");
+
+const alphaErr = "must only contain letters.";
+const lengthErr = "must be between 1 and 10 characters.";
+
+const validateUser = [
+  body("username")
+    .trim()
+    .notEmpty()
+    .isAlpha()
+    .withMessage(`First name ${alphaErr}`)
+    .isLength({ min: 1, max: 15 })
+    .withMessage(`First name ${lengthErr}`),
+  body("email")
+    .trim()
+    .notEmpty()
+    .isEmail()
+    .withMessage("Email must be a valid email address.")
+    .normalizeEmail(),
+  body("password")
+    .trim()
+    .notEmpty()
+    .isStrongPassword({
+      minLength: 8,
+      minLowercase: 1,
+      minUppercase: 1,
+      minNumbers: 1,
+      minSymbols: 1,
+      returnScore: false,
+    })
+    .withMessage(
+      "Password must be at least 8 characters long and include at least one lowercase letter, one uppercase letter, one number, and one symbol."
+    ),
+];
+
 async function giftsGET(req, res) {
   const gifts = await db.getAllGifts();
   res.render("index", {
@@ -41,7 +76,18 @@ async function contactGET(req, res) {
 }
 
 async function contactPOST(req, res) {
+  const errors = validationResult(req);
+
   const { username, email, password } = req.body;
+
+  if (!errors.isEmpty()) {
+    return res.render("contact", {
+      title: "Contact",
+      links: links,
+      errors: errors.array(),
+      data: { username, email, password },
+    });
+  }
 
   try {
     // Try inserting the user
@@ -71,4 +117,5 @@ module.exports = {
   aboutGET,
   contactGET,
   contactPOST,
+  validateUser,
 };
