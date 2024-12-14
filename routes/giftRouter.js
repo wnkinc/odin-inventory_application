@@ -5,6 +5,11 @@ const giftRouter = Router();
 giftRouter.get("/", giftController.giftsGET);
 
 giftRouter.get("/donate", giftController.donateGET);
+giftRouter.post(
+  "/donate",
+  giftController.validateGift,
+  giftController.donatePOST
+);
 
 giftRouter.get("/about", giftController.aboutGET);
 

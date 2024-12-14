@@ -17,9 +17,9 @@ const validateUser = [
     .trim()
     .notEmpty()
     .isAlpha()
-    .withMessage(`First name ${alphaErr}`)
-    .isLength({ min: 1, max: 15 })
-    .withMessage(`First name ${lengthErr}`),
+    .withMessage(`Username ${alphaErr}`)
+    .isLength({ min: 1, max: 10 })
+    .withMessage(`Username ${lengthErr}`),
   body("email")
     .trim()
     .notEmpty()
@@ -42,6 +42,24 @@ const validateUser = [
     ),
 ];
 
+const validateGift = [
+  body("name")
+    .trim()
+    .notEmpty()
+    .isLength({ min: 1, max: 10 })
+    .withMessage(`Gift name ${lengthErr}`),
+  body("description")
+    .trim()
+    .notEmpty()
+    .isLength({ min: 1, max: 100 })
+    .withMessage(`Description must be between 1 and 100 characters.`),
+  body("price")
+    .trim()
+    .notEmpty()
+    .isFloat({ min: 1.0, max: 100.0 })
+    .withMessage("Price must be between 1.00 and 100.00."),
+];
+
 async function giftsGET(req, res) {
   const gifts = await db.getAllGifts();
   res.render("index", {
@@ -59,7 +77,41 @@ async function donateGET(req, res) {
     links: links,
     categories: categories,
     usernames: usernames,
+    data: { name: "", description: "", price: "" },
   });
+}
+
+async function donatePOST(req, res) {
+  const errors = validationResult(req);
+
+  const { usernames, name, description, price, age_group, category } = req.body;
+
+  if (!errors.isEmpty()) {
+    const categories = await db.getCategories(); // Re-fetch categories
+    const allUsernames = await db.getUsers(); // Re-fetch usernames
+    return res.render("donate", {
+      title: "Donate",
+      links: links,
+      errors: errors.array(),
+      categories: categories,
+      usernames: allUsernames,
+      data: { name, description, price },
+    });
+  }
+
+  try {
+    await db.insertGift(
+      name,
+      description,
+      price,
+      category,
+      age_group,
+      usernames
+    );
+    res.redirect("/");
+  } catch (err) {
+    console.error(err);
+  }
 }
 
 async function aboutGET(req, res) {
@@ -120,4 +172,6 @@ module.exports = {
   contactGET,
   contactPOST,
   validateUser,
+  donatePOST,
+  validateGift,
 };

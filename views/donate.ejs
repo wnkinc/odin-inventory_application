@@ -9,6 +9,7 @@
     <%- include('./partials/navbar', {links: links}) %>
 
     <h1><%= title %></h1>
+    <%- include("partials/errors.ejs") %>
     <form action="/donate" method="POST">
       <label for="usernames">Usernames: </label>
       <select id="usernames" name="usernames">
@@ -18,7 +19,13 @@
       </select>
 
       <label for="name">Gift Name: </label>
-      <input type="text" name="name" id="name" />
+      <input
+        type="text"
+        name="name"
+        id="name"
+        value="<%= data ? data.name : '' %>"
+        required
+      />
       <label for="description">description: </label>
       <textarea
         id="description"
@@ -26,9 +33,20 @@
         rows="5"
         cols="30"
         placeholder="Write a short description about the gift..."
-      ></textarea>
+        required
+      >
+<%= data && data.description ? data.description : '' %>
+    </textarea
+      >
       <label for="price">Price: </label>
-      <input type="number" name="price" id="price" step="0.01" />
+      <input
+        type="number"
+        name="price"
+        id="price"
+        step="0.01"
+        value="<%= data ? data.price : '' %>"
+        required
+      />
 
       <label for="age_group">Age Group: </label>
       <select id="age_group" name="age_group">

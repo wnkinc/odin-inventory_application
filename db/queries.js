@@ -5,6 +5,32 @@ async function getAllGifts() {
   return result.rows;
 }
 
+async function insertGift(
+  name,
+  description,
+  price,
+  category_id,
+  age_group,
+  user_id
+) {
+  const query = `
+      INSERT INTO Gifts (name, description, price, category_id, age_group, user_id, created_at)
+      VALUES ($1, $2, $3, $4, $5, $6, NOW())
+      RETURNING id;
+    `;
+  const result = await pool.query(query, [
+    name,
+    description,
+    price,
+    category_id,
+    age_group,
+    user_id,
+  ]);
+
+  // Return the inserted user ID
+  return result.rows[0].id;
+}
+
 async function getCategories() {
   const result = await pool.query(
     "SELECT id, name FROM Categories ORDER BY name;"
@@ -44,4 +70,5 @@ module.exports = {
   getCategories,
   insertUser,
   getUsers,
+  insertGift,
 };
