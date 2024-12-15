@@ -64,10 +64,10 @@ INSERT INTO Categories (name, description) VALUES
 
 -- Insert some sample gifts
 INSERT INTO Gifts (name, description, price, category_id, age_group, user_id) VALUES
-('Lego Set', 'A fun Lego building set for children', 49.99, 1, '5-10 years', 1),
-('Children''s Book', 'A magical adventure book for young readers', 12.99, 2, '4-8 years', 2),
-('Jenga Game', 'A classic game for all ages', 19.99, 3, '6+ years', 1),
-('Tablet for Kids', 'A kid-friendly tablet with educational apps', 129.99, 4, '5-10 years', 2);
+('Lego Set', 'A fun Lego building set for children', 49.99, 1, 'Kids (6-11 years)', 1),
+('Children''s Book', 'A magical adventure book for young readers', 12.99, 2, 'Toddlers (3-5 years)', 2),
+('Jenga Game', 'A classic game for all ages', 19.99, 3, 'Kids (6-11 years)', 1),
+('Tablet for Kids', 'A kid-friendly tablet with educational apps', 129.99, 4, 'Teens (12+ years)', 2);
 
 -- Link gifts to categories using Category_Items
 INSERT INTO Category_Items (category_id, item_id) VALUES

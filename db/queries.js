@@ -5,6 +5,52 @@ async function getAllGifts() {
   return result.rows;
 }
 
+async function searchGifts(filters) {
+  const { username, age_group, category } = filters;
+
+  // Base query
+  let query = `
+    SELECT 
+      Gifts.id, 
+      Gifts.name, 
+      Gifts.description, 
+      Gifts.price, 
+      Gifts.age_group, 
+      Gifts.created_at,
+      Users.username AS user_name,
+      Categories.name AS category_name
+    FROM Gifts
+    INNER JOIN Users ON Gifts.user_id = Users.id
+    INNER JOIN Categories ON Gifts.category_id = Categories.id
+    WHERE 1=1
+  `;
+
+  const values = [];
+
+  // Add filters dynamically
+  if (username) {
+    query += " AND Users.id = $1";
+    values.push(username);
+  }
+  if (age_group) {
+    query += ` AND Gifts.age_group = $${values.length + 1}`;
+    values.push(age_group);
+  }
+  if (category) {
+    query += ` AND Categories.id = $${values.length + 1}`;
+    values.push(category);
+  }
+
+  // Execute query
+  try {
+    const result = await pool.query(query, values);
+    return result.rows; // Return the matching rows
+  } catch (error) {
+    console.error("Error searching gifts:", error);
+    throw new Error("Failed to retrieve gifts.");
+  }
+}
+
 async function insertGift(
   name,
   description,
@@ -71,4 +117,5 @@ module.exports = {
   insertUser,
   getUsers,
   insertGift,
+  searchGifts,
 };

@@ -61,16 +61,34 @@ const validateGift = [
 ];
 
 async function giftsGET(req, res) {
-  const gifts = await db.getAllGifts();
-  const categories = await db.getCategories();
-  const usernames = await db.getUsers();
-  res.render("index", {
-    title: "Gifts",
-    links: links,
-    gifts: gifts,
-    categories: categories,
-    usernames: usernames,
-  });
+  const { username, age_group, category } = req.query; // Extract query parameters
+
+  try {
+    let gifts;
+
+    // Check if any filter parameters are provided
+    if (username || age_group || category) {
+      // Pass the query parameters to db.searchGifts for filtering
+      gifts = await db.searchGifts({ username, age_group, category });
+    } else {
+      // Fetch all gifts if no filters are applied
+      gifts = await db.getAllGifts();
+    }
+
+    const categories = await db.getCategories();
+    const usernames = await db.getUsers();
+
+    res.render("index", {
+      title: "Gifts",
+      links: links,
+      gifts: gifts,
+      categories: categories,
+      usernames: usernames,
+    });
+  } catch (error) {
+    console.error("Error fetching gifts:", error);
+    res.status(500).send("An error occurred while retrieving the gifts.");
+  }
 }
 
 async function donateGET(req, res) {
