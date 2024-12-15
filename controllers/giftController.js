@@ -62,10 +62,14 @@ const validateGift = [
 
 async function giftsGET(req, res) {
   const gifts = await db.getAllGifts();
+  const categories = await db.getCategories();
+  const usernames = await db.getUsers();
   res.render("index", {
     title: "Gifts",
     links: links,
     gifts: gifts,
+    categories: categories,
+    usernames: usernames,
   });
 }
 

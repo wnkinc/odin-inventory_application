@@ -1,0 +1,44 @@
+<!-- views/partials/search.ejs -->
+<div class="search">
+  <form action="/donate" method="GET">
+    <!-- Usernames Filter -->
+    <div>
+      <label for="usernameFilter">Filter by Username: </label>
+      <select id="usernameFilter" name="username">
+        <option value=""></option>
+        <!-- Blank option -->
+        <% usernames.forEach(username => { %>
+        <option value="<%= username.id %>"><%= username.username %></option>
+        <% }) %>
+      </select>
+    </div>
+
+    <!-- Age Group Filter -->
+    <div>
+      <label for="ageGroupFilter">Filter by Age Group: </label>
+      <select id="ageGroupFilter" name="age_group">
+        <option value=""></option>
+        <!-- Blank option -->
+        <option value="infants">Infants (0-2 years)</option>
+        <option value="toddlers">Toddlers (3-5 years)</option>
+        <option value="kids">Kids (6-11 years)</option>
+        <option value="teens">Teens (12+ years)</option>
+      </select>
+    </div>
+
+    <!-- Category Filter -->
+    <div>
+      <label for="categoryFilter">Filter by Category: </label>
+      <select id="categoryFilter" name="category">
+        <option value=""></option>
+        <!-- Blank option -->
+        <% categories.forEach(category => { %>
+        <option value="<%= category.id %>"><%= category.name %></option>
+        <% }) %>
+      </select>
+    </div>
+
+    <!-- Search Button -->
+    <button type="submit">Search</button>
+  </form>
+</div>
