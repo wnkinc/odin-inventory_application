@@ -179,6 +179,23 @@ async function updateGift(
   return result.rows[0];
 }
 
+async function deleteGift(id) {
+  const query = `
+    DELETE FROM Gifts
+    WHERE id = $1
+    RETURNING id;
+  `;
+
+  const result = await pool.query(query, [id]);
+
+  // Check if the deletion was successful by checking if the result has rows
+  if (result.rows.length === 0) {
+    throw new Error("Gift not found");
+  }
+
+  return result.rows[0]; // Return the deleted gift id
+}
+
 module.exports = {
   getAllGifts,
   getCategories,
@@ -188,4 +205,5 @@ module.exports = {
   searchGifts,
   getGift,
   updateGift,
+  deleteGift,
 };

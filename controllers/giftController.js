@@ -239,6 +239,11 @@ async function updatePOST(req, res) {
   }
 }
 
+async function deletePOST(req, res) {
+  await db.deleteGift(req.params.id);
+  res.redirect("/");
+}
+
 module.exports = {
   giftsGET,
   donateGET,
@@ -250,4 +255,5 @@ module.exports = {
   validateGift,
   updateGET,
   updatePOST,
+  deletePOST,
 };

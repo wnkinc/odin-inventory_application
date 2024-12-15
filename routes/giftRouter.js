@@ -27,4 +27,6 @@ giftRouter.post(
   giftController.updatePOST
 );
 
+giftRouter.post("/:id/delete", giftController.deletePOST);
+
 module.exports = giftRouter;
