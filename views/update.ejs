@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title><%= title %></title>
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body>
+    <%- include('./partials/navbar', {links: links}) %>
+
+    <h1><%= title %></h1>
+    <%- include("partials/errors.ejs") %>
+    
+    <form action="/donate" method="POST">
+
+      <!-- Gift Name -->
+      <label for="name">Gift Name: </label>
+      <input
+        type="text"
+        name="name"
+        id="name"
+        value="<%= gift.name %>" <!-- Use gift name -->
+        required
+      />
+
+      <!-- Description -->
+      <label for="description">Description: </label>
+      <textarea
+        id="description"
+        name="description"
+        rows="5"
+        cols="30"
+        placeholder="Write a short description about the gift..."
+        required
+      ><%= gift.description %></textarea> <!-- Use gift description -->
+
+      <!-- Price -->
+      <label for="price">Price: </label>
+      <input
+        type="number"
+        name="price"
+        id="price"
+        step="0.01"
+        value="<%= gift.price %>" <!-- Use gift price -->
+        required
+      />
+
+      <!-- Age Group -->
+      <label for="age_group">Age Group: </label>
+      <select id="age_group" name="age_group" required>
+        <option value="Infants (0-2 years)" <%= gift.age_group === 'Infants (0-2 years)' ? 'selected' : '' %>>Infants (0-2 years)</option>
+        <option value="Toddlers (3-5 years)" <%= gift.age_group === 'Toddlers (3-5 years)' ? 'selected' : '' %>>Toddlers (3-5 years)</option>
+        <option value="Kids (6-11 years)" <%= gift.age_group === 'Kids (6-11 years)' ? 'selected' : '' %>>Kids (6-11 years)</option>
+        <option value="Teens (12+ years)" <%= gift.age_group === 'Teens (12+ years)' ? 'selected' : '' %>>Teens (12+ years)</option>
+      </select>
+
+      <!-- Category -->
+      <label for="category">Category: </label>
+      <select id="category" name="category" required>
+        <% categories.forEach(category => { %>
+          <option value="<%= category.id %>" <%= gift.category_name === category.name ? 'selected' : '' %> >
+            <%= category.name %>
+          </option>
+        <% }) %>
+      </select>
+
+      <button type="submit">Submit</button>
+    </form>
+
+    <a href="/">Back to home</a>
+  </body>
+</html>

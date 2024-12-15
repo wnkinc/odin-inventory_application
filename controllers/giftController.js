@@ -10,7 +10,7 @@ const links = [
 const { body, validationResult } = require("express-validator");
 
 const alphaErr = "must only contain letters.";
-const lengthErr = "must be between 1 and 10 characters.";
+const lengthErr = "must be between 1 and 15 characters.";
 
 const validateUser = [
   body("username")
@@ -18,7 +18,7 @@ const validateUser = [
     .notEmpty()
     .isAlpha()
     .withMessage(`Username ${alphaErr}`)
-    .isLength({ min: 1, max: 10 })
+    .isLength({ min: 1, max: 15 })
     .withMessage(`Username ${lengthErr}`),
   body("email")
     .trim()
@@ -46,7 +46,7 @@ const validateGift = [
   body("name")
     .trim()
     .notEmpty()
-    .isLength({ min: 1, max: 10 })
+    .isLength({ min: 1, max: 15 })
     .withMessage(`Gift name ${lengthErr}`),
   body("description")
     .trim()
@@ -56,8 +56,8 @@ const validateGift = [
   body("price")
     .trim()
     .notEmpty()
-    .isFloat({ min: 1.0, max: 100.0 })
-    .withMessage("Price must be between 1.00 and 100.00."),
+    .isFloat({ min: 1.0, max: 255.0 })
+    .withMessage("Price must be between 1.00 and 255.00."),
 ];
 
 async function giftsGET(req, res) {
@@ -187,6 +187,20 @@ async function contactPOST(req, res) {
   }
 }
 
+async function updateGET(req, res) {
+  const gift = await db.getGift(req.params.id);
+  const categories = await db.getCategories();
+
+  console.log(gift.age_group);
+
+  res.render("update", {
+    title: "Update",
+    links: links,
+    gift: gift,
+    categories: categories,
+  });
+}
+
 module.exports = {
   giftsGET,
   donateGET,
@@ -196,4 +210,5 @@ module.exports = {
   validateUser,
   donatePOST,
   validateGift,
+  updateGET,
 };

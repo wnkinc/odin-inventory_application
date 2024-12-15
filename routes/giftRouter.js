@@ -20,4 +20,6 @@ giftRouter.post(
   giftController.contactPOST
 );
 
+giftRouter.get("/:id/update", giftController.updateGET);
+
 module.exports = giftRouter;

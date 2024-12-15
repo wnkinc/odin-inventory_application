@@ -111,6 +111,38 @@ async function insertUser(username, email, password) {
   return result.rows[0].id;
 }
 
+async function getGift(id) {
+  try {
+    const result = await pool.query(
+      `
+      SELECT 
+        g.id,
+        g.name,
+        g.description,
+        g.price,
+        g.age_group,
+        g.created_at AS gift_created_at,
+        c.name AS category_name,
+        u.username AS user_name
+      FROM Gifts g
+      JOIN Categories c ON g.category_id = c.id
+      JOIN Users u ON g.user_id = u.id
+      WHERE g.id = $1
+    `,
+      [id]
+    ); // $1 is the placeholder for the id parameter
+
+    if (result.rows.length === 0) {
+      throw new Error("Gift not found");
+    }
+
+    return result.rows[0]; // Return the first (and only) result
+  } catch (error) {
+    console.error("Error fetching gift:", error);
+    throw new Error("Failed to retrieve gift");
+  }
+}
+
 module.exports = {
   getAllGifts,
   getCategories,
@@ -118,4 +150,5 @@ module.exports = {
   getUsers,
   insertGift,
   searchGifts,
+  getGift,
 };
