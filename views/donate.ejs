@@ -10,23 +10,25 @@
 
     <h1><%= title %></h1>
     <%- include("partials/errors.ejs") %>
-    <form action="/donate" method="POST">
-      <label for="usernames">Usernames: </label>
-      <select id="usernames" name="usernames">
+    <form action="/donate" method="POST" class="donate-form">
+      <label for="usernames" class="form-label">Usernames: </label>
+      <select id="usernames" name="usernames" class="form-select">
         <% usernames.forEach(username => { %>
         <option value="<%= username.id %>"><%= username.username %></option>
         <% }) %>
       </select>
 
-      <label for="name">Gift Name: </label>
+      <label for="name" class="form-label">Gift Name: </label>
       <input
         type="text"
         name="name"
         id="name"
         value="<%= data ? data.name : '' %>"
         required
+        class="form-input"
       />
-      <label for="description">description: </label>
+
+      <label for="description" class="form-label">Description: </label>
       <textarea
         id="description"
         name="description"
@@ -34,11 +36,12 @@
         cols="30"
         placeholder="Write a short description about the gift..."
         required
+        class="form-textarea"
       >
-<%= data && data.description ? data.description : '' %>
-    </textarea
-      >
-      <label for="price">Price: </label>
+        <%= data && data.description ? data.description : '' %>
+      </textarea>
+
+      <label for="price" class="form-label">Price: </label>
       <input
         type="number"
         name="price"
@@ -46,25 +49,28 @@
         step="0.01"
         value="<%= data ? data.price : '' %>"
         required
+        class="form-input"
       />
 
-      <label for="age_group">Age Group: </label>
-      <select id="age_group" name="age_group">
+      <label for="age_group" class="form-label">Age Group: </label>
+      <select id="age_group" name="age_group" class="form-select">
         <option value="Infants (0-2 years)">Infants (0-2 years)</option>
         <option value="Toddlers (3-5 years)">Toddlers (3-5 years)</option>
         <option value="Kids (6-11 years)">Kids (6-11 years)</option>
         <option value="Teens (12+ years)">Teens (12+ years)</option>
       </select>
 
-      <label for="category">Category: </label>
-      <select id="category" name="category">
+      <label for="category" class="form-label">Category: </label>
+      <select id="category" name="category" class="form-select">
         <% categories.forEach(category => { %>
         <option value="<%= category.id %>"><%= category.name %></option>
         <% }) %>
       </select>
 
-      <button type="submit">Submit</button>
+      <button type="submit" class="form-submit-btn">Submit</button>
     </form>
-    <a href="/">Back to home</a>
+
+    <a href="/" class="back-link">Back to home</a>
+    <%- include('partials/footer.ejs') %>
   </body>
 </html>

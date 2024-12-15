@@ -138,7 +138,7 @@ async function donatePOST(req, res) {
 
 async function aboutGET(req, res) {
   res.render("about", {
-    title: "About Our Inventory Application",
+    title: "About This Inventory Application",
     links: links,
   });
 }

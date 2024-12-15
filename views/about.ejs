@@ -5,18 +5,18 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>About | Christmas Gift Inventory</title>
     <link rel="stylesheet" href="/styles.css" />
-    <!-- Link to your CSS file -->
   </head>
   <body>
     <%- include('./partials/navbar', {links: links}) %>
-    <header>
-      <h1><%= title %></h1>
+
+    <header class="about-header">
+      <h1 class="page-title"><%= title %></h1>
     </header>
 
-    <main>
-      <section>
-        <h2>Our Mission</h2>
-        <p>
+    <main class="about-main">
+      <section class="about-section mission">
+        <h2 class="section-title">Mission</h2>
+        <p class="section-text">
           This website is designed to simplify the process of managing donations
           and distributing Christmas gifts to children in need. It serves as an
           inventory application, helping organizations and volunteers
@@ -25,54 +25,37 @@
         </p>
       </section>
 
-      <section>
-        <h2>Features of the Application</h2>
-        <ul>
-          <li>
+      <section class="about-section features">
+        <h2 class="section-title">Features of the Application</h2>
+        <ul class="feature-list">
+          <li class="feature-item">
             Track donated gifts with detailed descriptions, prices, and
             categories.
           </li>
-          <li>
+          <li class="feature-item">
             Organize gifts into age-appropriate groups to ensure suitability.
           </li>
-          <li>
-            Maintain an up-to-date inventory using dynamic data from our
-            database.
+          <li class="feature-item">
+            Maintain an up-to-date inventory using dynamic data from a database.
           </li>
-          <li>
-            Streamline the distribution process by categorizing and prioritizing
-            gifts.
+          <li class="feature-item">
+            Sort by users and ensure user validation for updating or deleting.
           </li>
         </ul>
       </section>
 
-      <section>
-        <h2>Why It Matters</h2>
-        <p>
-          Each year, many children go without presents during the holiday
-          season. By using this application, donors and organizers can work
-          together to spread joy and ensure that no child is left out. With
-          efficient inventory management, we can maximize the impact of every
-          donation and create a brighter holiday for everyone.
-        </p>
-      </section>
-
-      <section>
-        <h2>Get Involved</h2>
-        <p>
+      <section class="about-section involvement">
+        <h2 class="section-title">Get Involved</h2>
+        <p class="section-text">
           Whether you wish to donate gifts or assist in the distribution
           process, this application makes it easy to contribute. Explore our
-          <a href="/donate">Donate</a> page to learn more about how you can help
-          make this Christmas special for children in need.
+          <a href="/donate" class="donate-link">Donate</a> page to learn more
+          about how you can help make this Christmas special for children in
+          need.
         </p>
       </section>
     </main>
 
-    <footer>
-      <p>
-        &copy; <%= new Date().getFullYear() %> Christmas Gift Inventory. All
-        rights reserved.
-      </p>
-    </footer>
+    <%- include('partials/footer.ejs') %>
   </body>
 </html>
