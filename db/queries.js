@@ -143,6 +143,42 @@ async function getGift(id) {
   }
 }
 
+async function updateGift(
+  id,
+  name,
+  description,
+  price,
+  category_id,
+  age_group,
+  user_id
+) {
+  const query = `
+    -- Update the Gift record
+    UPDATE Gifts
+    SET 
+      name = $1, 
+      description = $2, 
+      price = $3, 
+      category_id = $4, 
+      age_group = $5, 
+      user_id = $6
+    WHERE id = $7
+    RETURNING id;
+  `;
+
+  const result = await pool.query(query, [
+    name, // $1 - name of the gift
+    description, // $2 - description of the gift
+    price, // $3 - price of the gift
+    category_id, // $4 - new category id
+    age_group, // $5 - new age group
+    user_id, // $6 - new user id
+    id, // $7 - the gift id to update
+  ]);
+
+  return result.rows[0];
+}
+
 module.exports = {
   getAllGifts,
   getCategories,
@@ -151,4 +187,5 @@ module.exports = {
   insertGift,
   searchGifts,
   getGift,
+  updateGift,
 };

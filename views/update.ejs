@@ -10,7 +10,17 @@
     <h1><%= title %></h1>
     <%- include("partials/errors.ejs") %>
     
-    <form action="/donate" method="POST">
+    <form action="/<%= id %>/update" method="POST">
+      <!-- Usernames Filter -->
+      <label for="usernames">Usernames: </label>
+      <select id="usernames" name="usernames" required>
+        <option value=""></option> <!-- Blank option -->
+        <% usernames.forEach(username => { %>
+          <option value="<%= username.id %>" <%= gift.user_name === username.username ? 'selected' : '' %> >
+            <%= username.username %>
+          </option>
+        <% }) %>
+      </select>
 
       <!-- Gift Name -->
       <label for="name">Gift Name: </label>

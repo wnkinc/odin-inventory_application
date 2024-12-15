@@ -190,15 +190,53 @@ async function contactPOST(req, res) {
 async function updateGET(req, res) {
   const gift = await db.getGift(req.params.id);
   const categories = await db.getCategories();
-
-  console.log(gift.age_group);
+  const allUsernames = await db.getUsers();
 
   res.render("update", {
+    id: req.params.id,
     title: "Update",
     links: links,
     gift: gift,
     categories: categories,
+    usernames: allUsernames,
   });
+}
+
+async function updatePOST(req, res) {
+  const errors = validationResult(req);
+
+  const { usernames, name, description, price, age_group, category } = req.body;
+
+  if (!errors.isEmpty()) {
+    const categories = await db.getCategories(); // Re-fetch categories
+    const allUsernames = await db.getUsers(); // Re-fetch usernames
+    const gift = await db.getGift(req.params.id);
+
+    return res.render("update", {
+      title: "update",
+      links: links,
+      errors: errors.array(),
+      gift: gift,
+      categories: categories,
+      usernames: allUsernames,
+    });
+  }
+
+  try {
+    await db.updateGift(
+      req.params.id,
+      name,
+      description,
+      price,
+      category,
+      age_group,
+      usernames
+    );
+
+    res.redirect("/");
+  } catch (err) {
+    console.error(err);
+  }
 }
 
 module.exports = {
@@ -211,4 +249,5 @@ module.exports = {
   donatePOST,
   validateGift,
   updateGET,
+  updatePOST,
 };
