@@ -9,6 +9,9 @@
     <%- include('./partials/navbar', {links: links}) %>
 
     <h1><%= title %></h1>
+    <p class="back-link">
+      Create username at <a href="/contact">Contact</a> page
+    </p>
     <%- include("partials/errors.ejs") %>
     <form action="/donate" method="POST" class="donate-form">
       <label for="usernames" class="form-label">Usernames: </label>

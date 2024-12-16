@@ -310,6 +310,7 @@ a:hover {
 
 .page-title {
   font-size: 3rem;
+  color: white;
   margin: 0;
 }
 
@@ -376,6 +377,10 @@ a:hover {
 
 /* ******** Contact ************* */
 /* Main Content */
+.contact-header {
+  background-color: #006400;
+}
+
 .contact-main {
   padding: 2rem;
   max-width: 1000px;
