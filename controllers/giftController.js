@@ -79,7 +79,7 @@ async function giftsGET(req, res) {
     const usernames = await db.getUsers();
 
     res.render("index", {
-      title: "Gifts",
+      title: "Available Gifts",
       links: links,
       gifts: gifts,
       categories: categories,
